@@ -3,7 +3,11 @@ package com.fundacion.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.fundacion.Padrino;
@@ -18,7 +22,7 @@ public class PadrinoDAO {
 
     public void insertarPadrino(Padrino padrino) {
         String sql = "INSERT INTO Padrino (dni, nombre, apellido, direccion, email, fecha_nacimiento, facebook, cod_postal, telefono_fijo, telefono_celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, padrino.getDni());
             stmt.setString(2, padrino.getNombre());
@@ -61,7 +65,8 @@ public class PadrinoDAO {
     private void insertarComoDonante(int dni) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Ingrese CUIL: ");
-        long cuil = sc.nextLong(); sc.nextLine();
+        long cuil = sc.nextLong();
+        sc.nextLine();
         System.out.print("Ingrese ocupación (puede estar vacía): ");
         String ocupacion = sc.nextLine();
 
@@ -98,4 +103,47 @@ public class PadrinoDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean eliminarPorDni(int dni) throws SQLException {
+        String sql = "DELETE FROM padrino WHERE dni = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, dni);
+            int filas = stmt.executeUpdate();// devuelve las filas afectadas
+            return filas > 0;// por eso si afecto mas de una.. es porque se borro el padrino.
+        }
+    }
+
+    public Padrino obtenerPorDni(int dni) throws SQLException {
+        String sql = "SELECT * FROM padrino WHERE dni = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, dni);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Padrino p = new Padrino();
+                p.setDni(rs.getInt("dni"));
+                p.setNombre(rs.getString("nombre"));
+                p.setApellido(rs.getString("apellido"));
+                // aca podriamos agregar mas setters de padrino.
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public List<Padrino> obtenerTodos() throws SQLException {
+        List<Padrino> padrinos = new ArrayList<>();
+        String sql = "SELECT * FROM padrino";
+        try (Statement stmt = connection.createStatement()) {// se usa statement porque no hay que traer atributos.
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                Padrino p = new Padrino();
+                p.setDni(rs.getInt("dni"));
+                p.setNombre(rs.getString("nombre"));
+                p.setApellido(rs.getString("apellido"));
+                padrinos.add(p);
+            }
+        }
+        return padrinos;
+    }
+
 }
