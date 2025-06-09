@@ -13,6 +13,7 @@ public class Padrino {
     public int telefonoFijo;
     public int telefonoCelular;
 
+    public Padrino(){}
 
     public Padrino(int dni, String nombre, String apellido, String direccion, String email,
                    Date fechaNacimiento, String facebook, int codPostal,
