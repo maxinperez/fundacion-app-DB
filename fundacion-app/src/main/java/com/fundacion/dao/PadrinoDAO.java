@@ -1,11 +1,12 @@
 package com.fundacion.dao;
 
-import com.fundacion.model.Padrino;
-import com.fundacion.model.Donante;
-import com.fundacion.model.Contacto;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
+
+import com.fundacion.Padrino;
 
 public class PadrinoDAO {
 
@@ -24,14 +25,14 @@ public class PadrinoDAO {
             stmt.setString(3, padrino.getApellido());
             stmt.setString(4, padrino.getDireccion());
             stmt.setString(5, padrino.getEmail());
-            stmt.setDate(6, Date.valueOf(padrino.getFechaNacimiento()));
+            stmt.setDate(6, (padrino.getFechaNacimiento()));
             stmt.setString(7, padrino.getFacebook());
             stmt.setInt(8, padrino.getCodPostal());
             stmt.setInt(9, padrino.getTelefonoFijo());
             stmt.setInt(10, padrino.getTelefonoCelular());
             stmt.executeUpdate();
 
-            System.out.println("✅ Padrino insertado correctamente.");
+            System.out.println("Padrino insertado correctamente.");
 
             // Elegir tipo de padrino (Donante o Contacto)
             Scanner scanner = new Scanner(System.in);

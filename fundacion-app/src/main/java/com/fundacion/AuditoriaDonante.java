@@ -20,6 +20,8 @@ public class AuditoriaDonante {
     private Timestamp fechaEliminacionDonante;
     private String usuario;
 
+      public AuditoriaDonante() {}
+
 
     public AuditoriaDonante(int idAuditoria, int dniDonante, String nombreDonante, String apellidoDonante, String direccionDonante,
                             String emailDonante, Date fechaNacimientoDonante, String facebookDonante, int codPostalDonante,
