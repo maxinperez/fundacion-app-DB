@@ -105,7 +105,7 @@ public class PadrinoDAO {
     }
 
     public boolean eliminarPorDni(int dni) throws SQLException {
-        String sql = "DELETE FROM donante WHERE dni_donante = ?";
+        String sql = "DELETE FROM Donante WHERE dni_donante = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, dni);
             int filas = stmt.executeUpdate();// devuelve las filas afectadas
