@@ -42,6 +42,45 @@ CREATE TABLE Donante (
     ON DELETE CASCADE
 );
 
+DELIMITER $$
+
+CREATE TRIGGER delete_donante
+AFTER DELETE ON Donante
+FOR EACH ROW
+BEGIN
+    DECLARE v_nombre VARCHAR(20);
+    DECLARE v_apellido VARCHAR(20);
+    DECLARE v_direccion VARCHAR(20);
+    DECLARE v_email VARCHAR(45);
+    DECLARE v_fecha_nacimiento DATE;
+    DECLARE v_facebook VARCHAR(20);
+    DECLARE v_cod_postal INT;
+    DECLARE v_telefono_fijo INT;
+    DECLARE v_telefono_celular INT;
+
+    
+    SELECT nombre, apellido, direccion, email, fecha_nacimiento, facebook, cod_postal, telefono_fijo, telefono_celular
+    INTO v_nombre, v_apellido, v_direccion, v_email, v_fecha_nacimiento, v_facebook, v_cod_postal, v_telefono_fijo, v_telefono_celular
+    FROM Padrino
+    WHERE dni = OLD.dni_donante;
+
+    
+    INSERT INTO Auditoria_Donante (
+        dni_donante, nombre_donante, apellido_donante, direccion_donante,
+        email_donante, fecha_nacimiento_donante, facebook_donante,
+        cod_postal_donante, telefono_fijo_donante, telefono_celular_donante,
+        cuil_donante, ocupacion_donante, usuario
+    ) VALUES (
+        OLD.dni_donante, v_nombre, v_apellido, v_direccion,
+        v_email, v_fecha_nacimiento, v_facebook,
+        v_cod_postal, v_telefono_fijo, v_telefono_celular,
+        OLD.cuil, OLD.ocupacion, USER()
+    );
+END$$
+
+DELIMITER ;
+
+
 -- Crear tabla Programa
 CREATE TABLE Programa (
 	id_programa INTEGER PRIMARY KEY AUTO_INCREMENT,
