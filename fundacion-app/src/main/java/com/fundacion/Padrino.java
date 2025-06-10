@@ -1,5 +1,6 @@
 package com.fundacion;
 import java.sql.Date;
+import java.util.Scanner;
 
 public class Padrino {
     public int dni;
@@ -10,14 +11,48 @@ public class Padrino {
     public Date fechaNacimiento;
     public String facebook;
     public int codPostal;
-    public int telefonoFijo;
-    public int telefonoCelular;
+    public String telefonoFijo;
+    public String telefonoCelular;
 
-    public Padrino(){}
+   
+    public Padrino() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Ingrese DNI: ");
+        this.dni = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Ingrese nombre: ");
+        this.nombre = scanner.nextLine();
+
+        System.out.print("Ingrese apellido: ");
+        this.apellido = scanner.nextLine();
+
+        System.out.print("Ingrese dirección: ");
+        this.direccion = scanner.nextLine();
+
+        System.out.print("Ingrese email: ");
+        this.email = scanner.nextLine();
+
+        System.out.print("Ingrese fecha de nacimiento (yyyy-mm-dd): ");
+        String fechaNacimientoStr = scanner.nextLine();
+        this.fechaNacimiento = Date.valueOf(fechaNacimientoStr); // convierte a java.sql.Date
+
+        System.out.print("Ingrese Facebook: ");
+        this.facebook = scanner.nextLine();
+
+        System.out.print("Ingrese código postal: ");
+        this.codPostal = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Ingrese teléfono fijo: ");
+        this.telefonoFijo = scanner.nextLine();
+
+        System.out.print("Ingrese teléfono celular: ");
+        this.telefonoCelular = scanner.nextLine();
+    }
 
     public Padrino(int dni, String nombre, String apellido, String direccion, String email,
                    Date fechaNacimiento, String facebook, int codPostal,
-                   int telefonoFijo, int telefonoCelular) {
+                   String telefonoFijo, String telefonoCelular) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -55,9 +90,9 @@ public class Padrino {
     public int getCodPostal() { return codPostal; }
     public void setCodPostal(int codPostal) { this.codPostal = codPostal; }
 
-    public int getTelefonoFijo() { return telefonoFijo; }
-    public void setTelefonoFijo(int telefonoFijo) { this.telefonoFijo = telefonoFijo; }
+    public String getTelefonoFijo() { return telefonoFijo; }
+    public void setTelefonoFijo(String telefonoFijo) { this.telefonoFijo = telefonoFijo; }
 
-    public int getTelefonoCelular() { return telefonoCelular; }
-    public void setTelefonoCelular(int telefonoCelular) { this.telefonoCelular = telefonoCelular; }
+    public String getTelefonoCelular() { return telefonoCelular; }
+    public void setTelefonoCelular(String telefonoCelular) { this.telefonoCelular = telefonoCelular; }
 }

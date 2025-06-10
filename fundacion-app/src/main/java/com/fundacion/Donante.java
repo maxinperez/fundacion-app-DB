@@ -7,7 +7,7 @@ public class Donante extends Padrino{
 
 
      public Donante(int dni, String nombre, String apellido, String direccion, String email, Date fechaNacimiento,
-                   String facebook, int codPostal, int telefonoFijo, int telefonoCelular,
+                   String facebook, int codPostal, String telefonoFijo, String telefonoCelular,
                    long cuil, String ocupacion) {
         super(dni, nombre, apellido, direccion, email, fechaNacimiento, facebook, codPostal, telefonoFijo, telefonoCelular);
         this.cuil = cuil;

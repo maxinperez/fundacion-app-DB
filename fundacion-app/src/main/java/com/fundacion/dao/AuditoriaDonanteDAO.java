@@ -11,29 +11,20 @@ import java.util.List;
 import com.fundacion.AuditoriaDonante;
 
 public class AuditoriaDonanteDAO {
-
-    private String jdbcURL;
-    private String jdbcUsername;
-    private String jdbcPassword;
-
-    public AuditoriaDonanteDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
-        this.jdbcURL = jdbcURL;
-        this.jdbcUsername = jdbcUsername;
-        this.jdbcPassword = jdbcPassword;
-    }
-
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+    private Connection connection;
+    public AuditoriaDonanteDAO(Connection connection) {
+        this.connection = connection;
     }
 
     // Obtener un registro por id
     public AuditoriaDonante obtenerPorId(int idAuditoria) throws SQLException {
         AuditoriaDonante ad = null;
-        String sql = "SELECT id_auditoria, dni_donante, fecha_eliminacion_donante, usuario FROM Auditoria_Donante WHERE id_auditoria = ?";
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String sql = "SELECT id_auditoria, dni_donante, fecha_eliminacion_donante, usuario " +
+                     "FROM Auditoria_Donante WHERE id_auditoria = ?";
+    
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idAuditoria);
+    
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     ad = new AuditoriaDonante();
@@ -44,6 +35,7 @@ public class AuditoriaDonanteDAO {
                 }
             }
         }
+    
         return ad;
     }
 
@@ -52,9 +44,8 @@ public class AuditoriaDonanteDAO {
         List<AuditoriaDonante> lista = new ArrayList<>();
         String sql = "SELECT id_auditoria, dni_donante, fecha_eliminacion_donante, usuario FROM Auditoria_Donante";
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 AuditoriaDonante ad = new AuditoriaDonante();

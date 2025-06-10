@@ -9,7 +9,7 @@ public class Contacto extends Padrino{
     private String estado; // ENUM en la DB
 
     public Contacto(int dni, String nombre, String apellido, String direccion, String email, Date fechaNacimiento,
-                    String facebook, int codPostal, int telefonoFijo, int telefonoCelular,
+                    String facebook, int codPostal, String telefonoFijo, String telefonoCelular,
                     Date fechaAlta, Date fechaBaja, Date fechaRechazo, Date fechaPrimerContacto, String estado) {
         super(dni, nombre, apellido, direccion, email, fechaNacimiento, facebook, codPostal, telefonoFijo, telefonoCelular);
         this.fechaAlta = fechaAlta;
