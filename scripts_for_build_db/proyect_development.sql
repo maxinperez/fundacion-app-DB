@@ -93,6 +93,22 @@ CREATE TABLE Aporta (
     ON DELETE CASCADE
 );
 
+CREATE TABLE Auditoria_Donante (
+dni_donante INTEGER PRIMARY KEY NOT NULL,
+	nombre_donante VARCHAR(20) NOT NULL,
+    apellido_donante VARCHAR(20) NOT NULL,
+    direccion_donante VARCHAR(20) NOT NULL,
+    email_donante VARCHAR(45) NOT NULL,
+    fecha_nacimiento_donante DATE NOT NULL,
+    facebook_donante VARCHAR(20) NOT NULL, 
+    cod_postal_donante INTEGER NOT NULL,
+    telefono_fijo_donante VARCHAR(20) NOT NULL,
+    telefono_celular_donante VARCHAR(20) NOT NULL,
+	cuil_donante BIGINT NOT NULL,
+    ocupacion_donante VARCHAR(45),
+	usuario VARCHAR(20)
+    );
+
 DELIMITER $$
 
 CREATE TRIGGER delete_donante
