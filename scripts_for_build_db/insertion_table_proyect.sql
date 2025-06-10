@@ -9,9 +9,9 @@ VALUES
 
 INSERT INTO Contacto (dni_contacto, fecha_alta, fecha_baja, fecha_rechazo, fecha_primer_contacto, estado)
 VALUES
-(41234567, '2024-01-01', NULL, NULL, '2023-12-20', 'Activo'),
-(23456789, '2023-06-15', '2024-04-10', NULL, '2023-06-01', 'Baja voluntaria'),
-(35123049, '2022-03-10', NULL, '2022-03-20', '2022-03-01', 'Rechazado');
+(41234567, '2024-01-01', NULL, NULL, '2023-12-20', 'adherido'),
+(23456789, '2023-06-15', '2024-04-10', NULL, '2023-06-01', 'baja'),
+(35123049, '2022-03-10', NULL, '2022-03-20', '2022-03-01', 'error');
 
 INSERT INTO Donante (dni_donante, cuil, ocupacion)
 VALUES
@@ -46,4 +46,5 @@ VALUES
 (41234567, 2, 1, 'Mensual', 4000),
 (41234567, 3, 1, 'Mensual', 8000),
 (23456789, 2, 2, 'Semanal', 1500);
+
 
