@@ -29,7 +29,7 @@ CREATE TABLE Contacto (
     fecha_baja DATE,
     fecha_rechazo DATE,
     fecha_primer_contacto DATE NOT NULL,
-    estado VARCHAR(45) NOT NULL,
+    estado ENUM('sin llamar', 'error', 'en gestion', 'adherido', 'amigo', 'no acepta','voluntario','baja') NOT NULL,
     CONSTRAINT fk_padrinoContacto FOREIGN KEY (dni_contacto) REFERENCES Padrino(dni)
 );
 
@@ -41,45 +41,6 @@ CREATE TABLE Donante (
     CONSTRAINT fk_padrinoDonante FOREIGN KEY (dni_donante) REFERENCES Padrino(dni)
     ON DELETE CASCADE
 );
-
-DELIMITER $$
-
-CREATE TRIGGER delete_donante
-AFTER DELETE ON Donante
-FOR EACH ROW
-BEGIN
-    DECLARE v_nombre VARCHAR(20);
-    DECLARE v_apellido VARCHAR(20);
-    DECLARE v_direccion VARCHAR(20);
-    DECLARE v_email VARCHAR(45);
-    DECLARE v_fecha_nacimiento DATE;
-    DECLARE v_facebook VARCHAR(20);
-    DECLARE v_cod_postal INT;
-    DECLARE v_telefono_fijo INT;
-    DECLARE v_telefono_celular INT;
-
-    
-    SELECT nombre, apellido, direccion, email, fecha_nacimiento, facebook, cod_postal, telefono_fijo, telefono_celular
-    INTO v_nombre, v_apellido, v_direccion, v_email, v_fecha_nacimiento, v_facebook, v_cod_postal, v_telefono_fijo, v_telefono_celular
-    FROM Padrino
-    WHERE dni = OLD.dni_donante;
-
-    
-    INSERT INTO Auditoria_Donante (
-        dni_donante, nombre_donante, apellido_donante, direccion_donante,
-        email_donante, fecha_nacimiento_donante, facebook_donante,
-        cod_postal_donante, telefono_fijo_donante, telefono_celular_donante,
-        cuil_donante, ocupacion_donante, usuario
-    ) VALUES (
-        OLD.dni_donante, v_nombre, v_apellido, v_direccion,
-        v_email, v_fecha_nacimiento, v_facebook,
-        v_cod_postal, v_telefono_fijo, v_telefono_celular,
-        OLD.cuil, OLD.ocupacion, USER()
-    );
-END$$
-
-DELIMITER ;
-
 
 -- Crear tabla Programa
 CREATE TABLE Programa (
@@ -129,5 +90,44 @@ CREATE TABLE Aporta (
     CONSTRAINT fk_dniDonante FOREIGN KEY (dni_aporta) REFERENCES Donante(dni_donante),
 	CONSTRAINT fk_idPrograma FOREIGN KEY (id_programa_aporta) REFERENCES Programa(id_programa),
     CONSTRAINT fk_idmp FOREIGN KEY (id_mp) REFERENCES medio_pago(id_pago)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
 );
+
+DELIMITER $$
+
+CREATE TRIGGER delete_donante
+AFTER DELETE ON Donante
+FOR EACH ROW
+BEGIN
+    DECLARE v_nombre VARCHAR(20);
+    DECLARE v_apellido VARCHAR(20);
+    DECLARE v_direccion VARCHAR(20);
+    DECLARE v_email VARCHAR(45);
+    DECLARE v_fecha_nacimiento DATE;
+    DECLARE v_facebook VARCHAR(20);
+    DECLARE v_cod_postal INT;
+    DECLARE v_telefono_fijo INT;
+    DECLARE v_telefono_celular INT;
+
+    
+    SELECT nombre, apellido, direccion, email, fecha_nacimiento, facebook, cod_postal, telefono_fijo, telefono_celular
+    INTO v_nombre, v_apellido, v_direccion, v_email, v_fecha_nacimiento, v_facebook, v_cod_postal, v_telefono_fijo, v_telefono_celular
+    FROM Padrino
+    WHERE dni = OLD.dni_donante;
+
+    
+    INSERT INTO Auditoria_Donante (
+        dni_donante, nombre_donante, apellido_donante, direccion_donante,
+        email_donante, fecha_nacimiento_donante, facebook_donante,
+        cod_postal_donante, telefono_fijo_donante, telefono_celular_donante,
+        cuil_donante, ocupacion_donante, usuario
+    ) VALUES (
+        OLD.dni_donante, v_nombre, v_apellido, v_direccion,
+        v_email, v_fecha_nacimiento, v_facebook,
+        v_cod_postal, v_telefono_fijo, v_telefono_celular,
+        OLD.cuil, OLD.ocupacion, USER()
+    );
+END$$
+
+DELIMITER ;
+
