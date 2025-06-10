@@ -15,7 +15,8 @@ public class Padrino {
     public String telefonoCelular;
 
    
-    public Padrino() {
+     public Padrino() {
+        try{
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Ingrese DNI: ");
@@ -48,8 +49,12 @@ public class Padrino {
 
         System.out.print("Ingrese teléfono celular: ");
         this.telefonoCelular = scanner.nextLine();
+        } catch (NumberFormatException e) {
+        System.err.println("Error: Entrada numérica inválida. Verifique DNI o Código Postal.");
+    } catch (IllegalArgumentException e) {
+        System.err.println("Error: Formato de fecha inválido. Use yyyy-mm-dd.");
     }
-
+}
     public Padrino(int dni, String nombre, String apellido, String direccion, String email,
                    Date fechaNacimiento, String facebook, int codPostal,
                    String telefonoFijo, String telefonoCelular) {
