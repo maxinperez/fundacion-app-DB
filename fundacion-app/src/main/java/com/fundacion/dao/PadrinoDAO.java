@@ -33,7 +33,7 @@ public class PadrinoDAO {
             stmt.setString(7, padrino.getFacebook());
             stmt.setInt(8, padrino.getCodPostal());
             stmt.setInt(9, padrino.getTelefonoFijo());
-            stmt.setInt(10, padrino.getTelefonoCelular());
+            stmt.setString(10, padrino.getTelefonoCelular());
             stmt.executeUpdate();
 
             System.out.println("Padrino insertado correctamente.");
@@ -105,7 +105,7 @@ public class PadrinoDAO {
     }
 
     public boolean eliminarPorDni(int dni) throws SQLException {
-        String sql = "DELETE FROM padrino WHERE dni = ?";
+        String sql = "DELETE FROM donante WHERE dni_donante = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, dni);
             int filas = stmt.executeUpdate();// devuelve las filas afectadas
@@ -145,5 +145,29 @@ public class PadrinoDAO {
         }
         return padrinos;
     }
+    public void listarPadrinosConProgramas() {
+        String sql = "SELECT p1.dni, p1.nombre, p1.apellido, a.id_programa_aporta, a.monto, a.frecuencia, p.nombre AS nombre_programa " +
+                     "FROM Padrino AS p1 " +
+                     "INNER JOIN Aporta AS a ON a.dni_aporta = p1.dni " +
+                     "INNER JOIN Programa AS p ON a.id_programa_aporta = p.id_programa " +
+                     "ORDER BY p1.dni";
+    
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+    
+            while (rs.next()) {
+                System.out.println(
+                    " El padrino " + rs.getString("nombre") + " " +
+                     rs.getString("apellido") + " " + "con el DNI  " + rs.getInt("dni") +
+                    ", aporta al programa " + rs.getString("nombre_programa") +
+                    " un monto de " + rs.getInt("monto") +
+                    " con frecuencia " + rs.getString("frecuencia"));
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+ }
 
-}
