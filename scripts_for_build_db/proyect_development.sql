@@ -87,7 +87,7 @@ CREATE TABLE Aporta (
 	PRIMARY KEY(dni_aporta, id_programa_aporta),
     frecuencia ENUM ('Semanal', 'Mensual') NOT NULL,
     monto INTEGER NOT NULL,
-    CONSTRAINT fk_dniDonante FOREIGN KEY (dni_aporta) REFERENCES Donante(dni_donante),
+    CONSTRAINT fk_dniPadrino FOREIGN KEY (dni_aporta) REFERENCES Padrino(dni),
 	CONSTRAINT fk_idPrograma FOREIGN KEY (id_programa_aporta) REFERENCES Programa(id_programa),
     CONSTRAINT fk_idmp FOREIGN KEY (id_mp) REFERENCES medio_pago(id_pago)
     ON DELETE CASCADE
